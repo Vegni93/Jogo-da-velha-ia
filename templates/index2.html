@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Contador</title>
+  <style>
+    body {
+      font-family: monospace;
+      background: #111;
+      color: #eee;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 60px;
+      padding: 40px;
+      min-height: 100vh;
+      box-sizing: border-box;
+    }
+
+    .main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      margin-top: 40px;
+    }
+
+    #numero {
+      font-size: 80px;
+      font-weight: bold;
+      color: #7fff6e;
+    }
+
+    #msg {
+      font-size: 18px;
+      color: #ff6eb4;
+      min-height: 28px;
+    }
+
+    button {
+      padding: 12px 32px;
+      font-size: 16px;
+      font-family: monospace;
+      cursor: pointer;
+      border: none;
+      border-radius: 8px;
+    }
+
+    .btn-click {
+      background: #7fff6e;
+      color: #111;
+      font-weight: bold;
+    }
+
+    .btn-reset {
+      background: #222;
+      color: #888;
+      border: 1px solid #444;
+      font-size: 12px;
+      padding: 8px 20px;
+    }
+
+    h3 {
+      color: #666;
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+
+    .panel {
+      display: grid;
+      grid-template-columns: repeat(4, 60px);
+      gap: 6px;
+      margin-top: 20px;
+    }
+
+    .badge {
+      width: 60px;
+      height: 60px;
+      border-radius: 8px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #333;
+      background: #1a1a1a;
+      color: #555;
+      font-size: 10px;
+      text-align: center;
+      box-sizing: border-box;
+    }
+
+    .badge.unlocked {
+      background: #1a2a1a;
+      border-color: #7fff6e;
+      color: #7fff6e;
+    }
+
+    .badge .num {
+      font-weight: bold;
+      font-size: 11px;
+    }
+
+    .badge .ico {
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="main">
+  <div id="numero">{{ contador }}</div>
+
+  <div id="msg">{{ mensagem }}</div>
+
+  <!-- botão clique -->
+  <form method="POST" action="/click">
+    <button class="btn-click" type="submit">Clique aqui</button>
+  </form>
+
+  <!-- botão reset -->
+  <form method="POST" action="/reset">
+    <button class="btn-reset" type="submit">Resetar</button>
+  </form>
+</div>
+
+<!-- painel de conquistas -->
+<div>
+  <h3>Conquistas</h3>
+  <div class="panel">
+
+    {% for numero, texto in milestones.items() %}
+      {% if contador >= numero %}
+        <!-- desbloqueado -->
+        <div class="badge unlocked" title="{{ texto }}">
+          <span class="num">{{ numero }}</span>
+          <span class="ico">{{ texto[0] }}</span>
+        </div>
+      {% else %}
+        <!-- bloqueado -->
+        <div class="badge">
+          <span class="num">{{ numero }}</span>
+          <span class="ico">?</span>
+        </div>
+      {% endif %}
+    {% endfor %}
+
+  </div>
+</div>
+
+</body>
+</html>

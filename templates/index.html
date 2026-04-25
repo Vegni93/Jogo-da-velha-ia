@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contador de Cliques</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            background-color: #f4f7f6;
+            margin-top: 100px;
+        }
+        .container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            display: inline-block;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .contador {
+            font-size: 5rem;
+            font-weight: bold;
+            color: #34495e;
+            margin: 20px 0;
+        }
+        .mensagem {
+            height: 30px;
+            color: #e67e22;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 8px;
+            transition: transform 0.1s, background 0.3s;
+            margin: 5px;
+        }
+        button:active { transform: scale(0.95); }
+        .btn-click { background-color: #27ae60; color: white; }
+        .btn-click:hover { background-color: #2ecc71; }
+        .btn-reset { background-color: #c0392b; color: white; }
+        .btn-reset:hover { background-color: #e74c3c; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Contador Flask</h1>
+        
+        <div class="contador">{{ contador }}</div>
+        
+        <div class="mensagem">
+            {{ mensagem }}
+        </div>
+
+        <form action="/clicar" style="display: inline;">
+            <button type="submit" class="btn-click">Clique aqui! 👆</button>
+        </form>
+
+        <form action="/resetar" style="display: inline;">
+            <button type="submit" class="btn-reset">Resetar 🔄</button>
+        </form>
+    </div>
+
+</body>
+</html>

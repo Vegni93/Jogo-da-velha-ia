@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Jogo da Velha</title>
+  <style>
+    body {
+      font-family: monospace;
+      background: #111;
+      color: #eee;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    h1 {
+      font-size: 28px;
+      color: #7fff6e;
+      margin-bottom: 8px;
+    }
+
+    .turno {
+      font-size: 16px;
+      color: #aaa;
+      margin-bottom: 16px;
+      min-height: 24px;
+    }
+
+    .mensagem {
+      font-size: 18px;
+      color: #ff6eb4;
+      margin-bottom: 16px;
+      min-height: 28px;
+    }
+
+    .aviso {
+      font-size: 14px;
+      color: #888;
+      margin-bottom: 12px;
+      min-height: 20px;
+    }
+
+    /* Tabuleiro 3x3 fixo */
+    .tabuleiro {
+      display: grid;
+      grid-template-columns: 100px 100px 100px;
+      grid-template-rows: 100px 100px 100px;
+      gap: 6px;
+    }
+
+    /* Toda célula tem o mesmo tamanho */
+    .celula {
+      width: 100px;
+      height: 100px;
+      background: #1a1a1a;
+      border: 2px solid #333;
+      border-radius: 10px;
+      font-size: 48px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+    }
+
+    /* Célula clicável */
+    .celula-btn {
+      width: 100px;
+      height: 100px;
+      background: #1a1a1a;
+      border: 2px solid #333;
+      border-radius: 10px;
+      font-size: 48px;
+      font-weight: bold;
+      color: #7fff6e;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-sizing: border-box;
+      padding: 0;
+    }
+
+    .celula-btn:hover {
+      background: #222;
+      border-color: #7fff6e;
+    }
+
+    /* Célula com X ou O */
+    .celula.ocupada {
+      color: #ff6eb4;
+      border-color: #444;
+    }
+
+    /* Célula bloqueada */
+    .celula.bloqueada {
+      opacity: 0.4;
+    }
+
+    .btn-reiniciar {
+      margin-top: 24px;
+      padding: 10px 28px;
+      font-size: 15px;
+      font-family: monospace;
+      background: #222;
+      color: #888;
+      border: 1px solid #444;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .btn-reiniciar:hover {
+      color: #ff6eb4;
+      border-color: #ff6eb4;
+    }
+
+    /* Remove estilo padrão do form */
+    form {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>🎮 Jogo da Velha</h1>
+
+  <div class="turno">
+    {% if not jogo_acabou %}
+      Vez do Jogador {{ jogador_atual }} ({{ letra }})
+    {% endif %}
+  </div>
+
+  <div class="mensagem">{{ mensagem }}</div>
+
+  <div class="aviso">
+    {% if jogo_acabou %}
+      ⬇️ Clique em "Nova Partida" para jogar novamente!
+    {% endif %}
+  </div>
+
+  <!-- Tabuleiro -->
+  <div class="tabuleiro">
+    {% for posicao in range(1, 10) %}
+
+      {% if tabuleiro[posicao] != ' ' %}
+        <!-- Ocupada: mostra X ou O -->
+        <div class="celula ocupada">
+          {{ tabuleiro[posicao] }}
+        </div>
+
+      {% elif jogo_acabou %}
+        <!-- Jogo acabou: quadrado vazio bloqueado -->
+        <div class="celula bloqueada">
+        </div>
+
+      {% else %}
+        <!-- Livre: botão clicável -->
+        <form method="POST" action="/jogar">
+          <input type="hidden" name="posicao" value="{{ posicao }}"/>
+          <button class="celula-btn" type="submit"></button>
+        </form>
+
+      {% endif %}
+
+    {% endfor %}
+  </div>
+
+  <!-- Nova partida -->
+  <form method="POST" action="/reiniciar">
+    <button class="btn-reiniciar" type="submit">🔄 Nova Partida</button>
+  </form>
+
+</body>
+</html>
